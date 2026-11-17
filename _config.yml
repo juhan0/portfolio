@@ -1,0 +1,28 @@
+title: "juhan0 | 공부 기록"
+url: "https://juhan0.github.io"
+baseurl: "/portfolio"
+timezone: Asia/Seoul
+markdown: kramdown
+highlighter: rouge
+permalink: /study/:year/:month/:day/:title/
+future: false
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: study
+      kind: post
+plugins:
+  - jekyll-sitemap
+exclude:
+  - README.md
+  - GROWING.md
+  - ROADMAP.md
+  - WRITING.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
