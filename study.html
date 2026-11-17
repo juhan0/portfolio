@@ -1,0 +1,12 @@
+---
+layout: study
+kind: list
+title: 공부 기록
+description: "개념 정리, 실습 과정, 오류 해결과 짧은 메모를 모으는 공간입니다."
+permalink: /study/
+---
+<div class="tools"><div><label for="search">기록 검색</label><input id="search" type="search" placeholder="제목, 내용, 태그로 검색" autocomplete="off"></div><div><label for="category">주제</label><select id="category"><option value="">전체 주제</option>{% assign topics = site.categories | sort %}{% for topic in topics %}<option value="{{ topic[0] | escape }}">{{ topic[0] | escape }}</option>{% endfor %}</select></div></div>
+<p class="count" id="count" role="status">{{ site.posts.size }}개의 기록</p>
+<div id="posts">{% for post in site.posts %}<article class="post-row" data-categories="{{ post.categories | jsonify | escape }}" data-search="{{ post.title | escape }} {{ post.content | strip_html | strip_newlines | escape }} {{ post.tags | join: ' ' | escape }}"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time><div><h2><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2><p>{{ post.description | default: post.excerpt | strip_html | truncate: 150 | escape }}</p><div class="tags">{% for category in post.categories %}<span class="tag">{{ category | escape }}</span>{% endfor %}{% for tag in post.tags %}<span class="tag">#{{ tag | escape }}</span>{% endfor %}</div></div><span class="arrow" aria-hidden="true">↗</span></article>{% endfor %}</div>
+<p class="empty" id="empty" {% if site.posts.size > 0 %}hidden{% endif %}>일치하는 기록이 없습니다. 검색어나 주제를 바꿔 보세요.</p>
+<noscript><p class="count">검색과 주제 필터를 사용하려면 JavaScript를 켜 주세요. 아래 글은 그대로 읽을 수 있습니다.</p></noscript>
