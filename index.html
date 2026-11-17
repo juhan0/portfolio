@@ -116,6 +116,14 @@
 
   <!-- 1) your content, then 2) the code that renders it. Keep this order. -->
   <script src="config.js?v=7b86903"></script>
+  <script>
+// Study notes live separately so personal settings in config.js remain editable.
+if (window.SITE) {
+  if (!SITE.sections.some(function(s){return s.id === 'studyhub'})) SITE.sections.splice(1, 0, {id:'studyhub',nav:'공부 기록',show:true});
+  SITE.studyhub = {intro:'개념 정리, 실습과 시행착오, 다시 꺼내 볼 메모.',html:'<div class="contact__card"><h3 class="contact__heading">작은 배움을 기록합니다.</h3><p class="contact__text">공부하며 이해한 내용과 해결 과정을 모았습니다. 날짜순으로 읽거나 주제와 검색어로 찾아보세요.</p><a class="btn btn--primary" href="study/">공부 기록 읽기 →</a></div>'};
+  if (SITE.hero && SITE.hero.glance) SITE.hero.glance.push({icon:'pen',label:'공부 기록',value:'배움과 시행착오',href:'study/'});
+}
+</script>
   <script src="js/main.js"></script>
 </body>
 </html>
