@@ -3,7 +3,7 @@ layout: study
 kind: post
 title: "인프라 보안 엔지니어 Career Path"
 date: 2026-11-24 00:00:00 +0900
-categories: [진로]
+categories: [seKUrity]
 description: "인프라 보안 엔지니어의 역할, 채용공고 공통 요구 역량과 학습 계획."
 ---
 
