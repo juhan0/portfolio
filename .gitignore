@@ -1,10 +1,6 @@
-# This is a plain static site — there's almost nothing to ignore.
-# These entries just keep junk out of your repo if you add tools later.
-
-# Secrets — NEVER commit these (see GROWING.md "Sensitive info & secrets")
+# Local environment files
 .env
 .env.*
-!.env.example
 
 # Operating system clutter
 .DS_Store
