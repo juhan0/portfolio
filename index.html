@@ -1,129 +1,16 @@
-<!DOCTYPE html>
-<!--
-  ===========================================================================
-  You normally DON'T need to edit this file.  All of your content lives in
-  config.js — edit that instead.  The page below builds itself from it.
+---
+layout: study
+kind: list
+title: 기록
+description: 공부한 것과 일상의 메모.
+---
+<p class="intro">공부한 것과 일상의 메모를 남깁니다.</p>
+<ul class="posts">
+{% for post in site.posts %}
+<li><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>{% if post.description %}<p>{{ post.description | escape }}</p>{% endif %}</li>
+{% else %}
+<li class="muted">아직 기록이 없습니다.</li>
+{% endfor %}
+</ul>
+<details><summary>글을 쓰려면</summary><p>위의 ‘글 쓰기’를 누르고 GitHub에 로그인하세요. <code>YYYY-MM-DD-제목.md</code> 파일을 작성한 뒤 Commit changes로 저장하면 여기에 올라옵니다.</p></details>
 
-  The only things here you might touch are the SEO/sharing tags in <head>,
-  and only if you want perfect previews when sharing your link. The README
-  "swap favicon + OG image" recipe walks you through it. Most people can
-  ignore this file completely.
-  ===========================================================================
--->
-<html lang="ko" data-palette="slate" data-style="soft">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ===== Security & rendering hints ====================================
-       These are the only security headers a header-less static host (like
-       GitHub Pages) can set — via <meta>. The Content-Security-Policy is a
-       defence-in-depth baseline: it blocks plugins/object embeds and <base>
-       hijacking, and upgrades any http:// request to https://. It still
-       allows self-hosted files, inline scripts/styles this template needs,
-       and any HTTPS resource (Google Fonts, embedded maps/videos, a
-       Formspree form), so it won't break anything that works over HTTPS.
-       The referrer policy trims what you leak to sites you link out to, and
-       color-scheme makes native controls (scrollbars, inputs) match dark mode. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self' https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https:; connect-src 'self' https:; frame-src 'self' https:; form-action 'self' https:; upgrade-insecure-requests" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta name="color-scheme" content="light dark" />
-
-  <!-- ===== SEO: shown in the browser tab and in Google ===================
-       These also get refreshed from config.js when the page loads, so for
-       normal use you can edit config.js. Keep these matching for the best
-       previews on social media (those scanners don't run JavaScript). -->
-  <title>juhan0 | 프로젝트 포트폴리오</title>
-  <meta name="description" content="juhan0의 개인 프로젝트와 학습 기록을 소개하는 포트폴리오입니다." />
-  <link rel="canonical" href="https://juhan0.github.io/portfolio/" />
-
-  <!-- ===== Sharing: Open Graph (Facebook, LinkedIn, etc.) ================ -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="juhan0 | 프로젝트 포트폴리오" />
-  <meta property="og:description" content="juhan0의 개인 프로젝트와 학습 기록을 소개하는 포트폴리오입니다." />
-  <meta property="og:url" content="https://juhan0.github.io/portfolio/" />
-  <meta property="og:image" content="assets/img/og-image.svg" />
-
-  <!-- ===== Sharing: Twitter / X card ===================================== -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="juhan0 | 프로젝트 포트폴리오" />
-  <meta name="twitter:description" content="juhan0의 개인 프로젝트와 학습 기록을 소개하는 포트폴리오입니다." />
-  <meta name="twitter:image" content="assets/img/og-image.svg" />
-
-  <!-- ===== Icons & theme colour ========================================= -->
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="assets/img/icon-192.svg" />
-  <link rel="manifest" href="site.webmanifest" />
-  <meta name="theme-color" content="#0f172a" />
-
-  <!-- ===== Search engines: tell them who this page is about ============== -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "juhan0",
-    "url": "https://juhan0.github.io/portfolio/",
-    "sameAs": [
-      "https://github.com/juhan0"
-    ]
-  }
-  </script>
-
-  <!-- ===== Anti-flash: set the look BEFORE the page paints ==============
-       Tiny inline script so a returning visitor never sees a flash of the
-       wrong theme/colour. It reads their saved choices (or device setting)
-       and applies them before the first paint. Values are whitelisted so a
-       stray localStorage value can't inject an arbitrary attribute. -->
-  <script>
-    (function () {
-      var el = document.documentElement;
-      try {
-        var saved = localStorage.getItem("theme");          // "light" | "dark" | null
-        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-        el.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
-        var p = localStorage.getItem("palette");            // accent colour
-        if (["slate","forest","sunset","violet","rose","ocean","mono"].indexOf(p) > -1) el.setAttribute("data-palette", p);
-        var s = localStorage.getItem("style");              // layout style
-        if (["soft","flat"].indexOf(s) > -1) el.setAttribute("data-style", s);
-      } catch (e) { /* private mode / storage off — the defaults are fine */ }
-    })();
-  </script>
-
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-
-<body>
-  <!-- Skip link: lets keyboard users jump straight to the content -->
-  <a class="skip-link" href="#content">Skip to content</a>
-
-  <!-- Reading-progress bar: a thin line at the top that fills as you scroll -->
-  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
-
-  <!-- The navbar is built by main.js from config.js -->
-  <header id="navbar" class="navbar" aria-label="Primary"></header>
-
-  <!-- OPTIONAL dot-rail (off by default; turn on in config → nav.showDotRail) -->
-  <nav id="dot-rail" class="dot-rail" aria-label="Section navigation" hidden></nav>
-
-  <!-- Everything (hero + sections) is rendered here by main.js -->
-  <main id="content"></main>
-
-  <!-- The footer is built by main.js -->
-  <footer id="site-footer" class="footer"></footer>
-
-  <!-- "Back to top" button (appears after you scroll) -->
-  <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top" hidden></button>
-
-  <!-- 1) your content, then 2) the code that renders it. Keep this order. -->
-  <script src="config.js?v=7b86903"></script>
-  <script>
-// Study notes live separately so personal settings in config.js remain editable.
-if (window.SITE) {
-  if (!SITE.sections.some(function(s){return s.id === 'studyhub'})) SITE.sections.splice(1, 0, {id:'studyhub',nav:'공부 기록',show:true});
-  SITE.studyhub = {intro:'개념 정리, 실습과 시행착오, 다시 꺼내 볼 메모.',html:'<div class="contact__card"><h3 class="contact__heading">작은 배움을 기록합니다.</h3><p class="contact__text">공부하며 이해한 내용과 해결 과정을 모았습니다. 날짜순으로 읽거나 주제와 검색어로 찾아보세요.</p><a class="btn btn--primary" href="study/">공부 기록 읽기 →</a></div>'};
-  if (SITE.hero && SITE.hero.glance) SITE.hero.glance.push({icon:'pen',label:'공부 기록',value:'배움과 시행착오',href:'study/'});
-}
-</script>
-  <script src="js/main.js"></script>
-</body>
-</html>
