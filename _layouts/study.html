@@ -15,8 +15,7 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 .wrap{width:min(1080px,calc(100% - 48px));margin-inline:auto}
 .site{border-bottom:1px solid var(--line)}
 .site .wrap,.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-block:20px}
-.brand{color:var(--ink);text-decoration:none;font-weight:850;display:inline-flex;align-items:center;gap:10px}
-.mark{display:grid;place-items:center;background:var(--dark);color:#e3f2ff;width:32px;height:32px;border-radius:8px;font:700 17px var(--display)}
+.site .wrap,.foot .wrap{justify-content:flex-end}
 .nav{display:flex;gap:22px;align-items:center;font-size:.875rem}
 .nav a{text-decoration:none}.nav a:hover{text-decoration:underline}
 .write{border:1px solid var(--line);padding:4px 11px;border-radius:7px}
@@ -55,7 +54,6 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
 <header class="site"><div class="wrap">
-<a class="brand" href="{{ '/' | relative_url }}"><span class="mark" aria-hidden="true">J</span>juhan0의 기록</a>
 <nav class="nav" aria-label="메뉴"><a href="{{ '/' | relative_url }}#posts">글 목록</a><a class="write" href="https://github.com/juhan0/portfolio/new/main/_posts">글 쓰기</a></nav>
 </div></header>
 <main id="main" class="wrap">
@@ -88,6 +86,6 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 {{ content }}
 {% endif %}
 </main>
-<footer class="foot"><div class="wrap"><span>juhan0의 기록</span><a href="https://github.com/juhan0">GitHub ↗</a></div></footer>
+<footer class="foot"><div class="wrap"><a href="https://github.com/juhan0">GitHub ↗</a></div></footer>
 </body>
 </html>
