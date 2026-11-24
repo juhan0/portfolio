@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% if page.kind == 'post' %}{{ page.title | escape }} · {% endif %}juhan0의 기록</title>
+<title>{% if page.kind == 'post' %}{{ page.title | escape }} · {% endif %}Ju_han</title>
 <meta name="description" content="{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 <style>
@@ -15,7 +15,9 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 .wrap{width:min(1080px,calc(100% - 48px));margin-inline:auto}
 .site{border-bottom:1px solid var(--line)}
 .site .wrap,.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-block:20px}
-.site .wrap,.foot .wrap{justify-content:flex-end}
+.foot .wrap{justify-content:flex-end}
+.brand{color:var(--ink);font-size:1.15rem;font-weight:800;letter-spacing:-.025em;text-decoration:none}
+.brand:hover{color:var(--green)}
 .nav{display:flex;gap:22px;align-items:center;font-size:.875rem}
 .nav a{text-decoration:none}.nav a:hover{text-decoration:underline}
 .write{border:1px solid var(--line);padding:4px 11px;border-radius:7px}
@@ -63,6 +65,7 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
 <header class="site"><div class="wrap">
+<a class="brand" href="{{ '/' | relative_url }}">Ju_han</a>
 <nav class="nav" aria-label="메뉴"><a href="{{ '/' | relative_url }}#posts">글 목록</a><a class="write" href="https://github.com/juhan0/portfolio/new/main/_posts">글 쓰기</a></nav>
 </div></header>
 <main id="main" class="wrap">
