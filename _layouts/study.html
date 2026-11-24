@@ -23,6 +23,12 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 .archive-main{padding-top:30px}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 16px}
 .section-head h1{font-size:1.2rem;margin:0}.count,.meta,.foot{color:var(--muted);font-size:.875rem}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.filters[hidden],.entries [hidden]{display:none}
+.filters button{font:inherit;font-size:.875rem;color:var(--green);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 13px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--dark);border-color:var(--dark);color:#fff}
+.filters button:focus-visible{outline:2px solid #245d9d;outline-offset:3px}
+.empty{color:var(--muted)}
 .entries{list-style:none;margin:0;padding:0}
 .entry{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;padding:24px 26px;transition:border-color .18s}
 .entry:hover{border-color:#7aa7d5}
@@ -69,19 +75,52 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 </div>
 {% elsif page.kind == 'list' %}
 <section id="posts" class="archive-main" aria-labelledby="posts-title">
-<div class="section-head"><h1 id="posts-title">최근 글</h1><span class="count">{{ site.posts.size }}개의 글</span></div>
+<div class="section-head"><h1 id="posts-title">최근 글</h1><span id="post-count" class="count" aria-live="polite">{{ site.posts.size }}개의 글</span></div>
+<div class="filters" id="post-filters" role="group" aria-label="글 카테고리" hidden>
+<button type="button" aria-pressed="true">전체</button>
+<button type="button" data-category="seKUrity" aria-pressed="false">seKUrity</button>
+<button type="button" data-category="개인 공부" aria-pressed="false">개인 공부</button>
+{% assign categories = site.categories | sort %}
+{% for category in categories %}
+{% unless category[0] == 'seKUrity' or category[0] == '개인 공부' %}
+<button type="button" data-category="{{ category[0] | escape }}" aria-pressed="false">{{ category[0] | escape }}</button>
+{% endunless %}
+{% endfor %}
+</div>
 <ul class="entries">
 {% for post in site.posts %}
-<li><article class="entry">
+<li data-categories="{{ post.categories | jsonify | escape }}"><article class="entry">
 <div class="meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>{% for category in post.categories %}<span class="tag">{{ category | escape }}</span>{% endfor %}</div>
 <h2><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
 {% if post.description %}<p>{{ post.description | escape }}</p>{% endif %}
 </article></li>
-{% else %}
-<li class="entry">아직 기록이 없습니다.</li>
 {% endfor %}
 </ul>
+<p id="empty-category" class="empty"{% if site.posts.size > 0 %} hidden{% endif %}>아직 등록된 글이 없습니다.</p>
 </section>
+<script>
+const filters = document.getElementById('post-filters');
+const buttons = [...filters.querySelectorAll('button')];
+const posts = [...document.querySelectorAll('#posts [data-categories]')].map(element => ({
+  element,
+  categories: JSON.parse(element.dataset.categories)
+}));
+filters.addEventListener('click', event => {
+  const selected = event.target.closest('button');
+  if (!selected) return;
+  const category = selected.dataset.category;
+  let visibleCount = 0;
+  for (const button of buttons) button.setAttribute('aria-pressed', String(button === selected));
+  for (const post of posts) {
+    const visible = !category || post.categories.includes(category);
+    post.element.hidden = !visible;
+    if (visible) visibleCount++;
+  }
+  document.getElementById('post-count').textContent = visibleCount + '개의 글';
+  document.getElementById('empty-category').hidden = visibleCount !== 0;
+});
+filters.hidden = false;
+</script>
 {% else %}
 {{ content }}
 {% endif %}
