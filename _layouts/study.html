@@ -97,8 +97,22 @@ a:focus-visible{outline:2px solid #245d9d;outline-offset:4px}
 <section id="posts" class="archive-main" aria-labelledby="posts-title">
 <div class="section-head"><h1 id="posts-title">최근 글</h1><span id="post-count" class="count" aria-live="polite">{{ site.posts.size }}개의 글</span></div>
 
-<ul class="entries">
+{% assign weekly_posts = '' | split: ',' %}
+{% assign career_post = '' | split: ',' %}
+{% assign other_posts = '' | split: ',' %}
 {% for post in site.posts %}
+  {% if post.path contains 'sekurity-week-' %}
+    {% assign weekly_posts = weekly_posts | push: post %}
+  {% elsif post.path contains '2026-11-24-infrastructure-security-career-path.md' %}
+    {% assign career_post = career_post | push: post %}
+  {% else %}
+    {% assign other_posts = other_posts | push: post %}
+  {% endif %}
+{% endfor %}
+{% assign weekly_posts = weekly_posts | sort: 'slug' | reverse %}
+{% assign ordered_posts = other_posts | concat: career_post | concat: weekly_posts %}
+<ul class="entries">
+{% for post in ordered_posts %}
 <li data-categories="{{ post.categories | jsonify | escape }}"><article class="entry">
 <div class="meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>{% for category in post.categories %}<span class="tag">{{ category | escape }}</span>{% endfor %}</div>
 <h2><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
