@@ -20,9 +20,6 @@ plugins:
   - jekyll-sitemap
 exclude:
   - README.md
-  - GROWING.md
-  - ROADMAP.md
-  - WRITING.md
   - LICENSE
   - Gemfile
   - Gemfile.lock
