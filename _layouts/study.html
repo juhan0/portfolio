@@ -3,27 +3,119 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ page.title | escape }} · juhan0</title>
+<title>{% if page.kind == 'post' %}{{ page.title | escape }} · {% endif %}juhan0의 기록</title>
 <meta name="description" content="{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 <style>
-*{box-sizing:border-box}html{background:#fff;color:#222;color-scheme:light}body{max-width:720px;margin:0 auto;padding:40px 24px;font:16px/1.85 system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;overflow-wrap:anywhere}a{color:inherit;text-underline-offset:4px}a:hover{color:#555}a:focus-visible{outline:2px solid #333;outline-offset:4px}header.site{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #ddd;padding-bottom:18px;margin-bottom:40px}.brand{font-weight:650;text-decoration:none}nav{display:flex;gap:18px;font-size:14px}h1{font-size:28px;line-height:1.4;margin:0 0 12px;letter-spacing:-.04em}h2{font-size:22px;margin:36px 0 12px}h3{font-size:18px}.muted,time{color:#777;font-size:14px}.intro{color:#666;margin:0 0 32px}.posts{list-style:none;padding:0;margin:0}.posts li{padding:18px 0;border-bottom:1px solid #eee}.posts a{display:block;font-size:18px;text-decoration:none;margin-bottom:3px}.posts a:hover{text-decoration:underline}.posts p{margin:6px 0 0;color:#666;font-size:14px}.meta{margin-bottom:32px}.prose img{max-width:100%;height:auto}.prose pre{padding:16px;background:#f6f6f6;overflow:auto;line-height:1.6}.prose code{font-family:ui-monospace,Consolas,monospace;font-size:.9em;background:#f6f6f6;padding:2px 4px}.prose pre code{padding:0;white-space:pre}.prose blockquote{margin:24px 0;padding-left:18px;border-left:2px solid #ccc;color:#666}.prose table{display:block;max-width:100%;overflow:auto;border-collapse:collapse}.prose th,.prose td{border:1px solid #ddd;padding:8px 12px}.prose hr{border:0;border-top:1px solid #ddd;margin:32px 0}details{font-size:14px;margin:24px 0;color:#666}details ul{padding-left:20px}.post-nav{margin-top:48px;border-top:1px solid #ddd;padding-top:20px}footer{margin-top:64px;color:#888;font-size:12px}.skip{position:absolute;top:-100px}.skip:focus{top:8px;background:white}@media(max-width:480px){body{padding:24px 20px}header.site{margin-bottom:32px}h1{font-size:25px}nav{gap:12px}}
+:root{color-scheme:light;--paper:#f8f7f2;--card:#fffefa;--ink:#212d28;--muted:#53635a;--green:#254b3a;--dark:#17382b;--line:#d9dfd4;--display:Georgia,"Batang",serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 system-ui,"Malgun Gothic",sans-serif}
+a{color:var(--green);text-underline-offset:.22em}
+a:focus-visible{outline:2px solid #946327;outline-offset:4px}
+.wrap{width:min(1080px,calc(100% - 48px));margin-inline:auto}
+.site{border-bottom:1px solid var(--line)}
+.site .wrap,.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-block:20px}
+.brand{color:var(--ink);text-decoration:none;font-weight:850;display:inline-flex;align-items:center;gap:10px}
+.mark{display:grid;place-items:center;background:var(--dark);color:#f2ebcf;width:32px;height:32px;border-radius:8px;font:700 17px var(--display)}
+.nav{display:flex;gap:22px;align-items:center;font-size:.875rem}
+.nav a{text-decoration:none}.nav a:hover{text-decoration:underline}
+.write{border:1px solid var(--line);padding:4px 11px;border-radius:7px}
+.skip{position:absolute;left:16px;top:-100px;background:var(--card);padding:8px;z-index:3}.skip:focus{top:8px}
+.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:20px;background:var(--dark);color:#fbf7e9;margin:32px 0 48px;padding:clamp(32px,7vw,74px)}
+.hero::after{content:"";position:absolute;z-index:-1;inset:0 0 0 55%;background:repeating-radial-gradient(ellipse at 86% 48%,transparent 0 16px,#d7e6b733 17px 18px,transparent 19px 28px);mask-image:linear-gradient(90deg,transparent,#000)}
+.hero h1{margin:0;font:700 clamp(2.55rem,7vw,5.3rem)/1.12 var(--display);letter-spacing:-.065em}
+.hero p{margin:18px 0 0;color:#dfebde;font-size:clamp(.95rem,2vw,1.15rem)}
+.archive{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,240px);gap:44px;align-items:start}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 16px}
+.section-head h2,.side h2{font-size:1.2rem;margin:0}.count,.meta,.foot,.side p{color:var(--muted);font-size:.875rem}
+.entries,.side ul{list-style:none;margin:0;padding:0}
+.entry{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;padding:24px 26px;transition:border-color .18s}
+.entry:hover{border-color:#79917f}
+.entry h3{margin:10px 0 4px;font-size:clamp(1.2rem,3vw,1.55rem);line-height:1.4;letter-spacing:-.025em;overflow-wrap:anywhere}
+.entry h3 a{color:var(--ink);text-decoration:none}.entry h3 a:hover{text-decoration:underline}
+.entry p{margin:6px 0 0;color:var(--muted)}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tag{border-radius:5px;padding:1px 8px;background:#e6eee2;color:#254b3a;font-size:.8rem;font-weight:650}
+.side{border-left:1px solid var(--line);padding-left:24px}
+.side h2{margin-bottom:10px}.side ul{margin-bottom:28px}.side p{margin:0}
+.side a{display:flex;justify-content:space-between;gap:8px;padding:5px 0}
+.category-posts{margin:4px 0 12px 16px!important}
+details{color:var(--muted)}summary{cursor:pointer}
+.reading{max-width:760px;margin:32px auto 0}
+.back{font-size:.875rem}.post-head{padding:30px 0;border-bottom:1px solid var(--line)}
+.post-head h1{font:700 clamp(2rem,5vw,3.5rem)/1.25 var(--display);letter-spacing:-.04em;margin:10px 0 0;overflow-wrap:anywhere}
+.prose{line-height:1.9;margin:30px 0;overflow-wrap:anywhere}
+.prose h2,.prose h3{line-height:1.4;margin:1.75em 0 .5em}
+.prose img{max-width:100%;height:auto;border-radius:10px}
+.prose pre{background:#eef0e9;overflow:auto;padding:16px;border-radius:8px;line-height:1.6}
+.prose code{font: .88em ui-monospace,Consolas,monospace;background:#eef0e9;padding:.15em .25em}
+.prose pre code{padding:0;white-space:pre}
+.prose blockquote{border-left:3px solid #8ca590;margin:24px 0;padding-left:18px;color:var(--muted)}
+.prose table{display:block;overflow:auto;border-collapse:collapse}
+.prose th,.prose td{border:1px solid var(--line);padding:8px 12px;text-align:left}
+.prose th{background:#e6eee2}
+.prose hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+.post-nav{border-top:1px solid var(--line);padding-top:20px}
+.foot{border-top:1px solid var(--line);margin-top:60px}
+@media(max-width:700px){.wrap{width:calc(100% - 32px)}.archive{grid-template-columns:1fr;gap:26px}.side{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}.hero{margin:20px 0 30px}.nav{gap:12px}.entry{padding:18px}.hero::after{inset-inline-start:68%}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
-<header class="site"><a class="brand" href="{{ '/' | relative_url }}">juhan0의 기록</a><nav aria-label="메뉴"><a href="{{ '/' | relative_url }}">글 목록</a><a href="https://github.com/juhan0/portfolio/new/main/_posts">글 쓰기</a></nav></header>
-<main id="main">
-<h1>{{ page.title | escape }}</h1>
+<header class="site"><div class="wrap">
+<a class="brand" href="{{ '/' | relative_url }}"><span class="mark" aria-hidden="true">J</span>juhan0의 기록</a>
+<nav class="nav" aria-label="메뉴"><a href="{{ '/' | relative_url }}#posts">글 목록</a><a class="write" href="https://github.com/juhan0/portfolio/new/main/_posts">글 쓰기</a></nav>
+</div></header>
+<main id="main" class="wrap">
 {% if page.kind == 'post' %}
-<p class="meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time>{% for category in page.categories %} · {{ category | escape }}{% endfor %}</p>
+<div class="reading">
+<a class="back" href="{{ '/' | relative_url }}#posts">← 글 목록</a>
+<header class="post-head">
+<div class="meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time>{% for category in page.categories %}<span class="tag">{{ category | escape }}</span>{% endfor %}</div>
+<h1>{{ page.title | escape }}</h1>
+</header>
 <article class="prose">{{ content }}</article>
-<div class="post-nav"><a href="{{ '/' | relative_url }}">← 글 목록으로</a></div>
+<nav class="post-nav" aria-label="글 탐색"><a href="{{ '/' | relative_url }}#posts">← 글 목록으로</a></nav>
+</div>
+{% elsif page.kind == 'list' %}
+<header class="hero"><h1>공부 기록</h1><p>보안과 개발을 배우며 정리한 글과 메모.</p></header>
+<div class="archive">
+<section id="posts" aria-labelledby="posts-title">
+<div class="section-head"><h2 id="posts-title">최근 글</h2><span class="count">{{ site.posts.size }}개의 글</span></div>
+<ul class="entries">
+{% for post in site.posts %}
+<li><article class="entry">
+<div class="meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>{% for category in post.categories %}<span class="tag">{{ category | escape }}</span>{% endfor %}</div>
+<h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+{% if post.description %}<p>{{ post.description | escape }}</p>{% endif %}
+</article></li>
+{% else %}
+<li class="entry">아직 기록이 없습니다.</li>
+{% endfor %}
+</ul>
+</section>
+{% if site.categories.size > 0 %}
+<aside class="side" aria-labelledby="category-title">
+<h2 id="category-title">카테고리</h2>
+<ul>
+{% assign categories = site.categories | sort %}
+{% for category in categories %}
+<li><details><summary>{{ category[0] | escape }} <span class="count">({{ category[1].size }})</span></summary>
+<ul class="category-posts">
+{% for post in category[1] %}
+<li><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></li>
+{% endfor %}
+</ul></details></li>
+{% endfor %}
+</ul>
+</aside>
+{% endif %}
+</div>
 {% else %}
 {{ content }}
 {% endif %}
 </main>
-<footer>juhan0 · <a href="https://github.com/juhan0">GitHub</a></footer>
+<footer class="foot"><div class="wrap"><span>juhan0의 기록</span><a href="https://github.com/juhan0">GitHub ↗</a></div></footer>
 </body>
 </html>
-
