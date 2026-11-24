@@ -4,13 +4,3 @@ kind: list
 title: 기록
 description: 공부한 것과 일상의 메모.
 ---
-<p class="intro">공부한 것과 일상의 메모를 남깁니다.</p>
-<ul class="posts">
-{% for post in site.posts %}
-<li><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>{% if post.description %}<p>{{ post.description | escape }}</p>{% endif %}</li>
-{% else %}
-<li class="muted">아직 기록이 없습니다.</li>
-{% endfor %}
-</ul>
-<details><summary>글을 쓰려면</summary><p>위의 ‘글 쓰기’를 누르고 GitHub에 로그인하세요. <code>YYYY-MM-DD-제목.md</code> 파일을 작성한 뒤 Commit changes로 저장하면 여기에 올라옵니다.</p></details>
-
